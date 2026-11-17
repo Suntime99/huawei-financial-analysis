@@ -1,0 +1,44 @@
+# GitHub Actions CI：华为财务分析技能包
+# 对齐数集采集工具链的 CI 机制——每次 push 自动跑全部测试 + 冒烟测试
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    name: 单元测试 + 冒烟测试
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install openpyxl
+
+      - name: 运行单元测试（19项）
+        run: python scripts/tests/test_main_pipeline.py -v
+
+      - name: 运行冒烟测试（14项）
+        run: python scripts/smoke_test.py
+
+      - name: 验证脚本可执行性（退出码约定）
+        run: |
+          python scripts/golden_triangle.py --growth 0.15 --roe 0.12 --ocf-ni 0.6 > /dev/null
+          python scripts/duPont.py --net-profit 120 --revenue 1000 --total-assets 800 --equity 400 > /dev/null
+          python scripts/forecast_accuracy.py --forecast 950 --actual 1000 --type revenue > /dev/null
+          python scripts/dashboard_generator.py --csv examples/sample_dashboard_data.csv --output /tmp/dash.html > /dev/null
+          echo "所有脚本可执行性验证通过"
+
+      - name: 生成 Excel 模板并校验
+        run: |
+          python scripts/generate_excel_templates.py
+          ls -la templates/excel/*.xlsx

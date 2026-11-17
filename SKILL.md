@@ -1,7 +1,7 @@
 ---
 name: huawei-financial-analysis
-description: "华为财务分析技能——基于《华为财务管理（第7版）》核心框架，提供系统化财务分析方法论、华为四大能力分析模型、财务金三角诊断工具、预算执行分析框架、经营仪表盘构建指南，以及从数据到洞察的完整分析路径。"
-version: 1.0.0
+description: "华为财务分析技能（生产型，KB+CAP四层架构）——基于《华为财务管理（第7版）》核心框架，19项KB编号知识库+20项CAP能力矩阵，提供系统化财务分析方法论、华为四大能力分析模型、财务金三角诊断工具、预算执行分析框架、经营仪表盘构建指南、配套Python分析脚本与Excel实操模板、培训体系与考核题库，以及从数据到洞察的完整分析路径。"
+version: V2.0-20261117
 ---
 
 # 华为财务分析技能
@@ -34,6 +34,13 @@ version: 1.0.0
 - 提供从数据到洞察的分析路径
 - 提供财务预测模型和方法
 - 提供财务分析报告的标准结构
+- 提供配套 Python 分析脚本（金三角/预算偏差/杜邦/预测/仪表盘/Excel生成）
+- 提供 Excel 实操模板（金三角评分卡/预算跟踪/杜邦拆解/滚动预测/偏差复盘）
+- 提供华为真实财务案例库（6大案例验证方法论）
+- 提供行业适配分析（10大行业差异化指标体系）
+- 提供对话引导协议（场景化交互式分析流程）
+- 提供报告模板库（月度/季度/专项三类可填写模板）
+- 提供四阶段培训体系与考核题库
 
 ## 核心分析框架
 
@@ -90,6 +97,8 @@ version: 1.0.0
 
 ## 章节索引
 
+> 全部知识文件已编号（KB-HFA-01~19），登记索引见 `kb-index.md`；能力矩阵见 `capabilities.md`。
+
 | 章节 | 主题 | 文件 |
 |------|------|------|
 | 第1章 | 财务分析总论——从数据到洞察 | chapters/ch01-analysis-overview.md |
@@ -104,6 +113,65 @@ version: 1.0.0
 | 第10章 | 财务分析报告撰写——从数字到故事 | chapters/ch10-report-writing.md |
 | 第11章 | 财务BP数据分析实战 | chapters/ch11-bp-analysis.md |
 | 第12章 | 行业对标分析——找到差距与方向 | chapters/ch12-benchmarking.md |
+| 第13章 | 华为财务案例库——用真实数据验证方法论 | chapters/ch13-huawei-cases.md |
+| 第14章 | 行业适配分析——从通用框架到行业特色 | chapters/ch14-industry-adaptation.md |
+| 第15章 | 对话引导——场景化交互式分析流程 | chapters/ch15-interactive-analysis.md |
+| 第16章 | 行业适配扩展——建筑/金融/教育/医药/互联网 | chapters/ch16-industry-extension.md |
+
+## 配套工具
+
+### Python 分析脚本（scripts/）
+
+| 脚本 | 功能 | 用法 |
+|------|------|------|
+| `golden_triangle.py` | 金三角评分+双维度交叉+八象限分类+雷达图数据 | `python scripts/golden_triangle.py --growth 0.15 --roe 0.12 --ocf-ni 0.6` |
+| `budget_variance.py` | 预算偏差自动分解（量/价/结构，产量/单价/效率） | `python scripts/budget_variance.py --actual-revenue 9500 --budget-revenue 10000 ...` |
+| `duPont.py` | ROE杜邦三因素拆解+敏感性分析 | `python scripts/duPont.py --net-profit 120 --revenue 1000 --total-assets 800 --equity 400` |
+| `forecast_accuracy.py` | 预测偏差率/准确率+华为考核等级 | `python scripts/forecast_accuracy.py --forecast 950 --actual 1000 --type revenue` |
+| `dashboard_generator.py` | 从CSV生成HTML经营仪表盘（红黄绿预警+摘要卡片+金三角雷达图+进度条） | `python scripts/dashboard_generator.py --csv examples/sample_dashboard_data.csv --output dashboard.html` |
+| `generate_excel_templates.py` | 生成5个Excel实操模板 | `python scripts/generate_excel_templates.py` |
+| 单元测试 | 覆盖全部脚本核心逻辑（19个测试用例） | `python scripts/tests/test_main_pipeline.py` |
+| `smoke_test.py` | 冒烟测试：依赖/脚本/示例数据/KB-CAP完整性（14项检查） | `python scripts/smoke_test.py` |
+| `add_kb_numbers.py` | 知识库批量编号（幂等，重跑自动跳过） | `python scripts/add_kb_numbers.py` |
+
+### Excel 实操模板（templates/excel/）
+
+| 模板 | 功能 |
+|------|------|
+| 金三角评分卡.xlsx | 输入三项指标，自动评分+综合评级 |
+| 预算执行跟踪表.xlsx | 自动计算偏差率+颜色标记+因素分解 |
+| 杜邦分析拆解表.xlsx | 输入三要素，自动拆ROE驱动因素+敏感性分析 |
+| 滚动预测日历.xlsx | 12个月滚动预测+准确性汇总 |
+| 预测偏差复盘表.xlsx | 预测vs实际对比+偏差归因+改进措施 |
+
+### 示例数据（examples/）
+
+- `sample_dashboard_data.csv`：经营仪表盘示例数据
+- `sample_dashboard.html`：生成的示例仪表盘
+
+### 报告模板库（templates/reports/）
+
+| 模板 | 适用场景 | 频率 |
+|------|---------|------|
+| `monthly-report-template.md` | 月度经营分析（金三角+偏差+风险+下月重点） | 月度 |
+| `quarterly-report-template.md` | 季度战略评估（里程碑+对标+资源配置） | 季度 |
+| `special-report-template.md` | 专项分析（应收账款示例，含5Why根因） | 按需 |
+
+## 培训体系（training/）
+
+| 文件 | 内容 |
+|------|------|
+| `training/README.md` | 四阶段培训体系总览（入门/进阶/实战/专家） |
+| `training/course-outline.md` | 详细课程大纲（10课+3实战项目+认证） |
+| `training/core-lecture.md` | 核心讲义（浓缩版，适合课堂分发） |
+| `training/assessment-bank.md` | 考核题库（入门20题+进阶8题+专家综合案例） |
+
+## 架构与知识库索引
+
+| 文件 | 内容 |
+|------|------|
+| `kb-index.md` | KB-HFA-01~19 知识库登记索引（编号/依赖/更新频率/变更历史） |
+| `capabilities.md` | CAP 四层能力矩阵（A场景识别/B工具执行/C工程策略/D平台治理，20项能力登记） |
 
 ## 附录
 
@@ -130,3 +198,10 @@ version: 1.0.0
 - 财务分析要深入业务源头——"要追溯到业务环节，从业务源头找出病灶"
 - 不同行业、不同发展阶段的企业，分析重点和指标阈值应有所差异
 - 华为模式适用于大型企业集团，中小企业需结合自身规模灵活应用
+- 脚本与模板依赖：运行Python脚本需 `python 3.9+`；生成/使用Excel模板需 `pip install openpyxl`
+
+## 依赖安装
+
+```bash
+pip install openpyxl   # Excel模板生成（脚本无需额外依赖，仅用标准库）
+```
