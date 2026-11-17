@@ -102,6 +102,31 @@ def main():
     ok, _ = run([sys.executable, "generate_excel_templates.py"], cwd=SCRIPTS)
     check("generate_excel_templates.py", ok)
 
+    # 使用统计/复盘（CAP-D-03/04）：指向临时 HOME，避免污染用户真实使用数据
+    smoke_home = os.path.join(BASE, "examples", "_smoke_usage_home")
+    os.makedirs(smoke_home, exist_ok=True)
+    env_smoke = dict(os.environ, HOME=smoke_home, USERPROFILE=smoke_home)
+    r = subprocess.run([sys.executable, "usage_tracker.py", "record",
+                        "--scenario", "全面诊断",
+                        "--capabilities", "golden_triangle:1:1"],
+                       cwd=SCRIPTS, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", env=env_smoke)
+    check("usage_tracker.py（record）", r.returncode == 0,
+          (r.stdout + r.stderr).strip()[:120])
+    r = subprocess.run([sys.executable, "insights.py", "rank"],
+                       cwd=SCRIPTS, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", env=env_smoke)
+    check("insights.py（rank）", r.returncode == 0,
+          (r.stdout + r.stderr).strip()[:120])
+    r = subprocess.run([sys.executable, "insights.py", "monthly"],
+                       cwd=SCRIPTS, capture_output=True, text=True,
+                       encoding="utf-8", errors="replace", env=env_smoke)
+    check("insights.py（monthly）", r.returncode == 0,
+          (r.stdout + r.stderr).strip()[:120])
+    # 清理临时数据
+    import shutil
+    shutil.rmtree(smoke_home, ignore_errors=True)
+
     print("\n[3/4] 示例数据完整性")
     csv_path = os.path.join(BASE, "examples", "sample_dashboard_data.csv")
     if os.path.exists(csv_path):

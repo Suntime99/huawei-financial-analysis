@@ -27,7 +27,7 @@ jobs:
       - name: 运行单元测试（19项）
         run: python scripts/tests/test_main_pipeline.py -v
 
-      - name: 运行冒烟测试（14项）
+      - name: 运行冒烟测试（17项）
         run: python scripts/smoke_test.py
 
       - name: 验证脚本可执行性（退出码约定）
