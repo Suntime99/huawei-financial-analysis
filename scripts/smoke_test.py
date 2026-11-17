@@ -99,8 +99,13 @@ def main():
     if os.path.exists(smoke_html):
         os.remove(smoke_html)
 
-    ok, _ = run([sys.executable, "generate_excel_templates.py"], cwd=SCRIPTS)
+    ok, _ = run([sys.executable, "generate_excel_templates.py",
+                 "--out-dir", os.path.join(BASE, "examples", "_smoke_excel")],
+                cwd=SCRIPTS)
     check("generate_excel_templates.py", ok)
+    # 清理临时生成的 Excel
+    import shutil
+    shutil.rmtree(os.path.join(BASE, "examples", "_smoke_excel"), ignore_errors=True)
 
     # 使用统计/复盘（CAP-D-03/04）：指向临时 HOME，避免污染用户真实使用数据
     smoke_home = os.path.join(BASE, "examples", "_smoke_usage_home")

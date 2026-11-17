@@ -301,8 +301,10 @@ def create_forecast_review(path):
     print(f"✅ {path}")
 
 
-def main():
-    out_dir = os.path.join(os.path.dirname(__file__), "..", "templates", "excel")
+def main(out_dir=None):
+    if out_dir is None:
+        out_dir = os.path.join(os.path.dirname(__file__), "..", "templates", "excel")
+    out_dir = os.path.abspath(out_dir)
     os.makedirs(out_dir, exist_ok=True)
 
     print("生成华为财务分析 Excel 实操模板：")
@@ -312,8 +314,13 @@ def main():
     create_rolling_forecast(os.path.join(out_dir, "滚动预测日历.xlsx"))
     create_forecast_review(os.path.join(out_dir, "预测偏差复盘表.xlsx"))
     print("\n全部模板生成完毕！")
-    print(f"输出目录：{os.path.abspath(out_dir)}")
+    print(f"输出目录：{out_dir}")
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    p = argparse.ArgumentParser(description="生成华为财务分析Excel实操模板")
+    p.add_argument("--out-dir", default=None,
+                   help="输出目录（默认：项目内 templates/excel）")
+    args = p.parse_args()
+    main(args.out_dir)
