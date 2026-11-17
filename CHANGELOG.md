@@ -3,6 +3,17 @@
 > 版本编码规则：`V<major>.<minor>-YYYYMMDD`（如 V2.0-20261117）。
 > 历史条目保留原格式，不回溯改写；新版本条目统一采用新编码。
 
+## V2.1-20261118
+
+**新增**
+- `scripts/usage_tracker.py`（CAP-D-03）：使用统计跟踪器，双维度统计（能力模块/场景），JSONL 本地存储，record/analyze/report/list 四子命令
+- `scripts/insights.py`（CAP-D-04）：能力效能排行榜、退化预警（成功率<80%且样本≥3）、月度/季度复盘报告（markdown）
+- 冒烟测试扩展至 17 项（新增 usage_tracker/insights 可执行性检查，临时 HOME 隔离不污染真实数据）
+
+**变更**
+- `capabilities.md`：能力矩阵 20→22 项，CAP-D-03/04 状态从"待建"改为"已交付"（机制交付，真实数据激活后自动产生洞察）
+- SKILL.md / README / CI 同步
+
 ## V2.0-20261117 — 生产型架构改造（KB+CAP 四层）
 
 **新增**

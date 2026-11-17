@@ -13,9 +13,10 @@
 - 从数据到洞察的分析路径
 - 财务预测模型与方法
 - 财务分析报告标准结构
-- **生产型架构**：KB-HFA-01~19 编号知识库（kb-index.md 登记）+ CAP 四层能力矩阵（capabilities.md，20项能力）
-- **6个 Python 分析脚本**（金三角/预算偏差/杜邦/预测/仪表盘/Excel生成）
-- **质量护栏**：19项单元测试 + 冒烟测试（14项检查）
+- **生产型架构**：KB-HFA-01~19 编号知识库（kb-index.md 登记）+ CAP 四层能力矩阵（capabilities.md，22项能力）
+- **9个 Python 脚本**（金三角/预算偏差/杜邦/预测/仪表盘/Excel生成/KB编号/使用统计/洞察复盘）
+- **质量护栏**：19项单元测试 + 冒烟测试（17项检查）+ GitHub Actions CI
+- **使用统计与复盘**：usage_tracker 双维度统计 + insights 排行榜/退化预警/月度季度复盘
 - **5个 Excel 实操模板**（金三角评分卡/预算跟踪/杜邦拆解/滚动预测/偏差复盘）
 - **华为真实财务案例库**（6大案例验证方法论）
 - **行业适配**（10大行业差异化指标体系）
@@ -27,45 +28,48 @@
 .
 ├── SKILL.md                       # 技能入口与核心分析框架
 ├── README.md                      # 项目说明
+├── CHANGELOG.md                   # 版本变更记录（V主版本.YY-YYYYMMDD 编码）
+├── kb-index.md                    # KB-HFA-01~19 知识库登记索引
+├── capabilities.md                # CAP 四层能力矩阵（22项能力）
 ├── cheatsheet.md                  # 附录A：核心指标速查表
 ├── glossary.md                    # 附录B：财务分析术语表
 ├── patterns.md                    # 附录C：财务分析模式库
-├── scripts/                       # Python 分析工具
+├── scripts/                       # Python 工具
 │   ├── golden_triangle.py             # 金三角诊断
 │   ├── budget_variance.py             # 预算偏差分解
 │   ├── duPont.py                      # 杜邦分析
 │   ├── forecast_accuracy.py           # 预测准确性评估
 │   ├── dashboard_generator.py         # 经营仪表盘生成（可视化增强版）
 │   ├── generate_excel_templates.py    # Excel模板生成
-│   └── tests/                         # 单元测试（19个用例）
+│   ├── add_kb_numbers.py              # 知识库批量编号（幂等）
+│   ├── usage_tracker.py               # 使用统计跟踪（CAP-D-03）
+│   ├── insights.py                    # 洞察与复盘（CAP-D-04）
+│   ├── smoke_test.py                  # 冒烟测试（17项检查）
+│   └── tests/                           # 单元测试（19个用例）
 ├── templates/                     # 模板库
 │   ├── excel/                         # Excel实操模板（5个）
 │   └── reports/                       # 报告模板（月度/季度/专项）
-│   ├── 金三角评分卡.xlsx
-│   ├── 预算执行跟踪表.xlsx
-│   ├── 杜邦分析拆解表.xlsx
-│   ├── 滚动预测日历.xlsx
-│   └── 预测偏差复盘表.xlsx
 ├── examples/                      # 示例数据
 │   ├── sample_dashboard_data.csv
 │   └── sample_dashboard.html
-└── chapters/                      # 13 章分主题教程
-    ├── ch01-analysis-overview.md      # 第1章 财务分析总论
-    ├── ch02-profitability.md          # 第2章 盈利能力分析
-    ├── ch03-solvency.md               # 第3章 偿债能力分析
-    ├── ch04-efficiency.md             # 第4章 营运能力分析
-    ├── ch05-growth.md                 # 第5章 发展能力分析
-    ├── ch06-golden-triangle.md        # 第6章 财务金三角综合诊断
-    ├── ch07-budget-analysis.md        # 第7章 预算执行分析
-    ├── ch08-dashboard.md              # 第8章 经营仪表盘构建
-    ├── ch09-forecasting.md            # 第9章 财务预测模型
-    ├── ch10-report-writing.md         # 第10章 财务分析报告撰写
-    ├── ch11-bp-analysis.md            # 第11章 财务BP数据分析实战
-    ├── ch12-benchmarking.md           # 第12章 行业对标分析
-    ├── ch13-huawei-cases.md           # 第13章 华为财务案例库
-    ├── ch14-industry-adaptation.md    # 第14章 行业适配分析
-    ├── ch15-interactive-analysis.md   # 第15章 对话引导·交互式分析
-    └── ch16-industry-extension.md     # 第16章 行业适配扩展
+├── .github/workflows/ci.yml       # GitHub Actions CI（单测+冒烟+可执行性）
+├── chapters/                      # 16 章分主题教程
+│   ├── ch01-analysis-overview.md      # 第1章 财务分析总论
+│   ├── ch02-profitability.md          # 第2章 盈利能力分析
+│   ├── ch03-solvency.md               # 第3章 偿债能力分析
+│   ├── ch04-efficiency.md             # 第4章 营运能力分析
+│   ├── ch05-growth.md                 # 第5章 发展能力分析
+│   ├── ch06-golden-triangle.md        # 第6章 财务金三角综合诊断
+│   ├── ch07-budget-analysis.md        # 第7章 预算执行分析
+│   ├── ch08-dashboard.md              # 第8章 经营仪表盘构建
+│   ├── ch09-forecasting.md            # 第9章 财务预测模型
+│   ├── ch10-report-writing.md         # 第10章 财务分析报告撰写
+│   ├── ch11-bp-analysis.md            # 第11章 财务BP数据分析实战
+│   ├── ch12-benchmarking.md           # 第12章 行业对标分析
+│   ├── ch13-huawei-cases.md           # 第13章 华为财务案例库
+│   ├── ch14-industry-adaptation.md    # 第14章 行业适配分析
+│   ├── ch15-interactive-analysis.md   # 第15章 对话引导·交互式分析
+│   └── ch16-industry-extension.md     # 第16章 行业适配扩展
 ├── training/                      # 培训体系
     ├── README.md                   # 四阶段培训总览
     ├── course-outline.md           # 详细课程大纲
@@ -183,6 +187,10 @@ python scripts/generate_excel_templates.py
 | `forecast_accuracy.py` | 预测偏差率/准确率+华为考核等级 | 第9章 |
 | `dashboard_generator.py` | 从CSV生成HTML经营仪表盘（红黄绿预警+摘要卡片+金三角雷达图+进度条） | 第8章 |
 | `generate_excel_templates.py` | 生成5个Excel实操模板 | 全部 |
+| `add_kb_numbers.py` | 知识库批量编号（幂等） | KB编号体系 |
+| `usage_tracker.py` | 使用统计跟踪（双维度统计，CAP-D-03） | Layer D |
+| `insights.py` | 洞察与复盘（排行/预警/月度季度，CAP-D-04） | Layer D |
+| `smoke_test.py` | 冒烟测试（17项检查） | 全部 |
 | `tests/test_main_pipeline.py` | 单元测试（19个用例覆盖全部脚本） | 全部 |
 
 ### 报告模板库（templates/reports/）

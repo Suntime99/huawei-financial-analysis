@@ -1,7 +1,7 @@
 ---
 name: huawei-financial-analysis
-description: "华为财务分析技能（生产型，KB+CAP四层架构）——基于《华为财务管理（第7版）》核心框架，19项KB编号知识库+20项CAP能力矩阵，提供系统化财务分析方法论、华为四大能力分析模型、财务金三角诊断工具、预算执行分析框架、经营仪表盘构建指南、配套Python分析脚本与Excel实操模板、培训体系与考核题库，以及从数据到洞察的完整分析路径。"
-version: V2.0-20261117
+description: "华为财务分析技能（生产型，KB+CAP四层架构）——基于《华为财务管理（第7版）》核心框架，19项KB编号知识库+22项CAP能力矩阵，提供系统化财务分析方法论、华为四大能力分析模型、财务金三角诊断工具、预算执行分析框架、经营仪表盘构建指南、配套Python分析脚本与Excel实操模板、使用统计与复盘机制、培训体系与考核题库，以及从数据到洞察的完整分析路径。"
+version: V2.1-20261118
 ---
 
 # 华为财务分析技能
@@ -133,6 +133,8 @@ version: V2.0-20261117
 | 单元测试 | 覆盖全部脚本核心逻辑（19个测试用例） | `python scripts/tests/test_main_pipeline.py` |
 | `smoke_test.py` | 冒烟测试：依赖/脚本/示例数据/KB-CAP完整性（14项检查） | `python scripts/smoke_test.py` |
 | `add_kb_numbers.py` | 知识库批量编号（幂等，重跑自动跳过） | `python scripts/add_kb_numbers.py` |
+| `usage_tracker.py` | 使用统计跟踪器（CAP-D-03，双维度统计，JSONL本地存储） | `python scripts/usage_tracker.py record --scenario 全面诊断 --capabilities "golden_triangle:1:1"` |
+| `insights.py` | 使用洞察与复盘（CAP-D-04，排行/退化预警/月度/季度复盘） | `python scripts/insights.py monthly` |
 
 ### Excel 实操模板（templates/excel/）
 
@@ -171,7 +173,7 @@ version: V2.0-20261117
 | 文件 | 内容 |
 |------|------|
 | `kb-index.md` | KB-HFA-01~19 知识库登记索引（编号/依赖/更新频率/变更历史） |
-| `capabilities.md` | CAP 四层能力矩阵（A场景识别/B工具执行/C工程策略/D平台治理，20项能力登记） |
+| `capabilities.md` | CAP 四层能力矩阵（A场景识别/B工具执行/C工程策略/D平台治理，22项能力登记） |
 
 ## 附录
 
